@@ -1,0 +1,1 @@
+He elegido el tipo de dato LocalDateTime para guardar las fechas porque los datos de prueba no incluyen zona horario ni offset. En un entorno profesional real emplearía ZonedDateTime.
