@@ -16,6 +16,7 @@ Este proyecto implementa un servicio de consulta de precios que permite obtener 
 - **H2 Database**
 - **Lombok**
 - **JUnit 5**
+- **OpenAPI 3 (springdoc-openapi + Swagger UI)**
 
 ## 🚀 Cómo Ejecutar el Proyecto
 
@@ -30,6 +31,10 @@ Este proyecto implementa un servicio de consulta de precios que permite obtener 
 Para consultar el precio del producto con ID 1 de la marca con ID 1 el 14 de junio a las 10:00:
 
 `curl http://localhost:8080/api/prices?brandId=1&productId=35455&applicationDate=2020-06-14T10:00:00`
+
+### Documentación OpenAPI / Swagger UI
+- Swagger UI: http://localhost:8080/swagger-ui/index.html
+- OpenAPI JSON: http://localhost:8080/v3/api-docs
 
 ### Ejecución de las pruebas con Maven Wrapper
 `./mvnw test`
