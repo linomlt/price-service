@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetApplicablePriceService implements GetApplicablePriceUseCase {
 
-    private final FindApplicablePricesPort findApplicablePricesPort; // TODO
+    private final FindApplicablePricesPort findApplicablePricesPort;
 
     @Override
     public Price execute(PriceQuery priceQuery) {
