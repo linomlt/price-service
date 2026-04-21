@@ -1,6 +1,5 @@
 package io.github.linomlt.priceservice.application.domain.model;
 
-import io.github.linomlt.priceservice.application.domain.exception.NegativeAmountException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -25,15 +24,6 @@ public class MoneyTest {
 
         assertThat(money.amount()).isEqualByComparingTo(amount);
         assertThat(money.currency()).isEqualTo("EUR");
-    }
-
-    @Test
-    void shouldThrowExceptionWhenAmountIsNegative() {
-        BigDecimal negativeAmount = new BigDecimal("-5.00");
-
-        assertThatExceptionOfType(NegativeAmountException.class)
-                .isThrownBy(() -> new Money(negativeAmount, "EUR"))
-                .satisfies(ex -> assertThat(ex.getAmount()).isEqualByComparingTo(negativeAmount));
     }
 
     @Test

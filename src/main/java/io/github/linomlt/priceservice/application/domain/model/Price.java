@@ -1,5 +1,7 @@
 package io.github.linomlt.priceservice.application.domain.model;
 
+import io.github.linomlt.priceservice.application.domain.exception.NegativePriceException;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,6 +21,10 @@ public class Price {
         Objects.requireNonNull(priority, "Priority cannot be null");
         Objects.requireNonNull(money, "Money cannot be null");
         Objects.requireNonNull(validity, "Validity period cannot be null");
+
+        if (money.isNegative()) {
+            throw new NegativePriceException(money);
+        }
 
         this.brandId = brandId;
         this.productId = productId;
