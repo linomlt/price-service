@@ -3,6 +3,7 @@ package io.github.linomlt.priceservice.application.domain.model;
 import io.github.linomlt.priceservice.application.domain.exception.NegativeAmountException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 public record Money(BigDecimal amount, String currency) {
@@ -10,6 +11,8 @@ public record Money(BigDecimal amount, String currency) {
     public Money {
         Objects.requireNonNull(amount, "Amount cannot be null");
         Objects.requireNonNull(currency, "Currency cannot be null");
+
+        amount = amount.setScale(2, RoundingMode.HALF_UP);
 
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new NegativeAmountException(amount);
