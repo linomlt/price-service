@@ -1,6 +1,7 @@
 # Price Service
 
-This project is a Spring Boot application that provides a REST API to query the applicable price for a specific product, brand, and date.
+This project is a Spring Boot application that provides a REST API to query the applicable price for a specific product,
+brand, and date.
 
 ## Technologies
 
@@ -14,7 +15,9 @@ This project is a Spring Boot application that provides a REST API to query the 
 
 ## Architecture
 
-The project follows a Hexagonal Architecture (Ports and Adapters) pattern, as described in the book "Get Your Hands Dirty on Clean Architecture" by Tom Hombergs ([buckpal repository](https://github.com/thombergs/buckpal)). This approach decouples the domain logic from external concerns like the web layer or the database.
+The project follows a Hexagonal Architecture (Ports and Adapters) pattern, as described in the book "Get Your Hands
+Dirty on Clean Architecture" by Tom Hombergs ([buckpal repository](https://github.com/thombergs/buckpal)). This approach
+decouples the domain logic from external concerns like the web layer or the database.
 
 - **Domain**: Business entities and value objects (Price, Money, DateRange)
 - **Application**: Ports (interfaces) and Services (use cases)
@@ -22,9 +25,28 @@ The project follows a Hexagonal Architecture (Ports and Adapters) pattern, as de
     - **In**: REST Controller
     - **Out**: Persistence with JPA
 
+```text
+io.github.linomlt.priceservice
+├── domain
+│   ├── exception           (Domain-specific Exceptions)
+│   └── model               (Domain Entities and Value Objects)
+├── application
+│   ├── port
+│   │   ├── in              (Input Ports, Use Case Interfaces)
+│   │   └── out             (Output Ports, Persistence Interfaces)
+│   └── service             (Application Services, Implementation of Use Cases)
+├── adapter
+│   ├── in
+│   │   └── rest            (REST Controller, Global Exception Handler, DTOs)
+│   └── out
+│       └── persistence     (JPA Entities, Repositories, Mappers)
+└── config           
+```
+
 ## Requirements
 
 To build and run this project, you need:
+
 - JDK 21
 - Maven (or use the provided `./mvnw` wrapper)
 
@@ -58,6 +80,7 @@ Returns the price with the highest priority for a given brand, product, and appl
     - `applicationDate` (LocalDateTime): Application date-time in ISO-8601 format (e.g., `2020-06-14T10:00:00`).
 
 - **Response Example**:
+
 ```json
 {
   "productId": 35455,
@@ -74,11 +97,16 @@ Returns the price with the highest priority for a given brand, product, and appl
 
 The project includes a comprehensive test suite covering different layers of the architecture:
 
-- **Unit tests of domain model**: Validate the business logic and constraints within the domain entities (`PriceTest`, `MoneyTest`, `DateRangeTest`).
-- **Unit tests of use cases**: Test the application services in isolation by mocking the output ports (`GetApplicablePriceServiceTest`).
-- **Integration tests of persistence adapter**: Verify the integration with the H2 database and the correctness of the JPA queries (`PricePersistenceAdapterTest`).
-- **Integration tests of REST adapter**: Ensure the REST endpoints are correctly mapped and handle requests/responses as expected (`PriceControllerTest`).
-- **System tests**: End-to-end tests that validate the entire flow of the application from the REST API to the database (`GetApplicablePriceSystemTest`).
+- **Unit tests of domain model**: Validate the business logic and constraints within the domain entities (`PriceTest`,
+  `MoneyTest`, `DateRangeTest`).
+- **Unit tests of use cases**: Test the application services in isolation by mocking the output ports (
+  `GetApplicablePriceServiceTest`).
+- **Integration tests of persistence adapter**: Verify the integration with the H2 database and the correctness of the
+  JPA queries (`PricePersistenceAdapterTest`).
+- **Integration tests of REST adapter**: Ensure the REST endpoints are correctly mapped and handle requests/responses as
+  expected (`PriceControllerTest`).
+- **System tests**: End-to-end tests that validate the entire flow of the application from the REST API to the
+  database (`GetApplicablePriceSystemTest`).
 
 ## Running Tests
 
@@ -91,8 +119,11 @@ To run the unit and integration tests, execute:
 The tests cover various scenarios, including the specific cases requested for the technical challenge.
 
 ## Data Initialization
-    
-The application initializes an H2 in-memory database with some sample data on startup (see `DataInitializer.java`), representing the different price rates for product 35455 and brand 1 across various date ranges. This initialized data is used for both **System tests** and **Integration tests of REST adapter** to ensure consistent verification of the technical challenge scenarios.
+
+The application initializes an H2 in-memory database with some sample data on startup (see `DataInitializer.java`),
+representing the different price rates for product 35455 and brand 1 across various date ranges. This initialized data
+is used for both **System tests** and **Integration tests of REST adapter** to ensure consistent verification of the
+technical challenge scenarios.
 
 | BRAND_ID | START_DATE          | END_DATE            | PRICE_LIST | PRODUCT_ID | PRIORITY | PRICE | CURR |
 |----------|---------------------|---------------------|------------|------------|----------|-------|------|
