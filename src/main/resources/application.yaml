@@ -1,3 +1,17 @@
 spring:
   application:
     name: price-service
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
