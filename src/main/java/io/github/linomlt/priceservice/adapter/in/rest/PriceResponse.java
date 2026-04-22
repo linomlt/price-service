@@ -1,6 +1,6 @@
 package io.github.linomlt.priceservice.adapter.in.rest;
 
-import io.github.linomlt.priceservice.application.domain.model.Price;
+import io.github.linomlt.priceservice.domain.model.Price;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

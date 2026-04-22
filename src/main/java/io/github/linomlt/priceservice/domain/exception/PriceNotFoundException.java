@@ -1,4 +1,4 @@
-package io.github.linomlt.priceservice.application.domain.exception;
+package io.github.linomlt.priceservice.domain.exception;
 
 public class PriceNotFoundException extends DomainException {
 

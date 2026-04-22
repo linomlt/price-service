@@ -1,5 +1,8 @@
-package io.github.linomlt.priceservice.application.domain.model;
+package io.github.linomlt.priceservice.domain.model;
 
+import io.github.linomlt.priceservice.domain.model.DateRange;
+import io.github.linomlt.priceservice.domain.model.Money;
+import io.github.linomlt.priceservice.domain.model.Price;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

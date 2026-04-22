@@ -1,6 +1,6 @@
 package io.github.linomlt.priceservice.application.port.out;
 
-import io.github.linomlt.priceservice.application.domain.model.Price;
+import io.github.linomlt.priceservice.domain.model.Price;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package io.github.linomlt.priceservice.application.domain.exception;
+package io.github.linomlt.priceservice.domain.exception;
 
-import io.github.linomlt.priceservice.application.domain.model.Money;
+import io.github.linomlt.priceservice.domain.model.Money;
 
 public final class NegativePriceException extends DomainException {
 

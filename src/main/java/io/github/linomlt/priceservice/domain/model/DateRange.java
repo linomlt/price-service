@@ -1,6 +1,6 @@
-package io.github.linomlt.priceservice.application.domain.model;
+package io.github.linomlt.priceservice.domain.model;
 
-import io.github.linomlt.priceservice.application.domain.exception.InvalidDateRangeException;
+import io.github.linomlt.priceservice.domain.exception.InvalidDateRangeException;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

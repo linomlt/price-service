@@ -1,8 +1,8 @@
 package io.github.linomlt.priceservice.adapter.out.persistence;
 
-import io.github.linomlt.priceservice.application.domain.model.DateRange;
-import io.github.linomlt.priceservice.application.domain.model.Money;
-import io.github.linomlt.priceservice.application.domain.model.Price;
+import io.github.linomlt.priceservice.domain.model.DateRange;
+import io.github.linomlt.priceservice.domain.model.Money;
+import io.github.linomlt.priceservice.domain.model.Price;
 import org.springframework.stereotype.Component;
 
 @Component

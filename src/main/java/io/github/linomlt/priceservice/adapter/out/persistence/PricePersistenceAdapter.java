@@ -1,6 +1,6 @@
 package io.github.linomlt.priceservice.adapter.out.persistence;
 
-import io.github.linomlt.priceservice.application.domain.model.Price;
+import io.github.linomlt.priceservice.domain.model.Price;
 import io.github.linomlt.priceservice.application.port.out.FindApplicablePricesPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

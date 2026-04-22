@@ -1,6 +1,6 @@
 package io.github.linomlt.priceservice.adapter.in.rest;
 
-import io.github.linomlt.priceservice.application.domain.model.Price;
+import io.github.linomlt.priceservice.domain.model.Price;
 import io.github.linomlt.priceservice.application.port.in.GetApplicablePriceUseCase;
 import io.github.linomlt.priceservice.application.port.in.PriceQuery;
 import io.swagger.v3.oas.annotations.Operation;

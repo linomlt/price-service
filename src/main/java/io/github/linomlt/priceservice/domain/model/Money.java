@@ -1,4 +1,4 @@
-package io.github.linomlt.priceservice.application.domain.model;
+package io.github.linomlt.priceservice.domain.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
