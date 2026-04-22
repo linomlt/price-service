@@ -1,7 +1,7 @@
 package io.github.linomlt.priceservice.adapter.in.rest;
 
+import io.github.linomlt.priceservice.application.exception.PriceNotFoundException;
 import io.github.linomlt.priceservice.domain.exception.DomainException;
-import io.github.linomlt.priceservice.domain.exception.PriceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ProblemDetail handleGeneralException(Exception ex) {
+    public ProblemDetail handleGeneralException() {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "An unexpected error occurred");
