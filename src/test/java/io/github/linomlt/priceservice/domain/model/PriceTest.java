@@ -1,8 +1,6 @@
 package io.github.linomlt.priceservice.domain.model;
 
-import io.github.linomlt.priceservice.domain.model.DateRange;
-import io.github.linomlt.priceservice.domain.model.Money;
-import io.github.linomlt.priceservice.domain.model.Price;
+import io.github.linomlt.priceservice.domain.exception.NegativePriceException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -38,6 +36,24 @@ public class PriceTest {
         assertThat(price.getPriceList()).isEqualTo(priceList);
         assertThat(price.getValidity()).isEqualTo(validity);
 
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPriceIsNegative() {
+        // Given
+        Long brandId = 1L;
+        Long productId = 35455L;
+        Money negativeMoney = new Money(new BigDecimal("-10.00"), "EUR");
+        Integer priority = 1;
+        Integer priceList = 1;
+        DateRange validity = new DateRange(
+                LocalDateTime.of(2026, 1, 1, 0, 0, 0),
+                LocalDateTime.of(2026, 12, 31, 23, 59, 59)
+        );
+
+        // When & Then
+        assertThatThrownBy(() -> new Price(brandId, productId, negativeMoney, priority, priceList, validity))
+                .isInstanceOf(NegativePriceException.class);
     }
 
     @Test

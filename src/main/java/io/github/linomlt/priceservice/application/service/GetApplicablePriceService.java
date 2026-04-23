@@ -8,6 +8,9 @@ import io.github.linomlt.priceservice.application.port.out.FindApplicablePricesP
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GetApplicablePriceService implements GetApplicablePriceUseCase {
@@ -16,11 +19,18 @@ public class GetApplicablePriceService implements GetApplicablePriceUseCase {
 
     @Override
     public Price execute(PriceQuery priceQuery) {
-        return findApplicablePricesPort.findApplicablePrice(
+        List<Price> applicablePrices = findApplicablePricesPort.findAllApplicablePrices(
                 priceQuery.brandId(),
                 priceQuery.productId(),
-                priceQuery.applicationDate()
-        ).orElseThrow(() -> new PriceNotFoundException("No applicable price found for the given query"));
+                priceQuery.applicationDate());
+
+        return selectHighestPriorityPrice(applicablePrices);
+    }
+
+    private Price selectHighestPriorityPrice(List<Price> applicablePrices) {
+        return applicablePrices.stream()
+                .max(Comparator.comparing(Price::getPriority))
+                .orElseThrow(() -> new PriceNotFoundException("No applicable price found for the given query"));
     }
 
 }

@@ -13,8 +13,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -31,26 +32,21 @@ class GetApplicablePriceServiceTest {
     private GetApplicablePriceService service;
 
     @Test
-    void shouldReturnPriceWhenPriceIsFound() {
-        PriceQuery priceQuery = givenPriceQuery();
-        Price expectedPrice = givenExpectedPrice();
+    void shouldReturnPriceWhenOnePriceIsFound() {
+        PriceQuery priceQuery = createPriceQuery();
+        Price expectedPrice = createPrice(0);
 
-        when(findApplicablePricesPort.findApplicablePrice(
+        when(findApplicablePricesPort.findAllApplicablePrices(
                 priceQuery.brandId(),
                 priceQuery.productId(),
                 priceQuery.applicationDate()
-        )).thenReturn(Optional.of(expectedPrice));
+        )).thenReturn(List.of(expectedPrice));
 
         Price result = service.execute(priceQuery);
 
-        assertThat(result.getBrandId()).isEqualTo(expectedPrice.getBrandId());
-        assertThat(result.getProductId()).isEqualTo(expectedPrice.getProductId());
-        assertThat(result.getMoney()).isEqualTo(expectedPrice.getMoney());
-        assertThat(result.getPriority()).isEqualTo(expectedPrice.getPriority());
-        assertThat(result.getPriceList()).isEqualTo(expectedPrice.getPriceList());
-        assertThat(result.getValidity()).isEqualTo(expectedPrice.getValidity());
+        assertThat(result).usingRecursiveComparison().isEqualTo(expectedPrice);
 
-        verify(findApplicablePricesPort).findApplicablePrice(
+        verify(findApplicablePricesPort).findAllApplicablePrices(
                 priceQuery.brandId(),
                 priceQuery.productId(),
                 priceQuery.applicationDate()
@@ -58,26 +54,37 @@ class GetApplicablePriceServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenPriceIsMissing() {
-        PriceQuery priceQuery = givenPriceQuery();
+    void shouldThrowExceptionWhenNoPriceIsFound() {
+        PriceQuery priceQuery = createPriceQuery();
 
-        when(findApplicablePricesPort.findApplicablePrice(
+        when(findApplicablePricesPort.findAllApplicablePrices(
                 priceQuery.brandId(),
                 priceQuery.productId(),
                 priceQuery.applicationDate()
-        )).thenReturn(Optional.empty());
+        )).thenReturn(List.of());
 
         assertThatThrownBy(() -> service.execute(priceQuery))
                 .isInstanceOf(PriceNotFoundException.class);
+    }
 
-        verify(findApplicablePricesPort).findApplicablePrice(
+    @Test
+    void shouldReturnHighestPriorityPriceWhenMultiplePricesAreFound() {
+        PriceQuery priceQuery = createPriceQuery();
+        Price lowPriorityPrice = createPrice(0);
+        Price highPriorityPrice = createPrice(1, 2, new BigDecimal("45.50"));
+
+        when(findApplicablePricesPort.findAllApplicablePrices(
                 priceQuery.brandId(),
                 priceQuery.productId(),
                 priceQuery.applicationDate()
-        );
+        )).thenReturn(List.of(lowPriorityPrice, highPriorityPrice));
+
+        Price result = service.execute(priceQuery);
+
+        assertThat(result).usingRecursiveComparison().isEqualTo(highPriorityPrice);
     }
 
-    private static PriceQuery givenPriceQuery() {
+    private static PriceQuery createPriceQuery() {
         return new PriceQuery(
                 1L,
                 35455L,
@@ -85,8 +92,12 @@ class GetApplicablePriceServiceTest {
         );
     }
 
-    private static Price givenExpectedPrice() {
-        Money money = new Money(new BigDecimal("35.50"), "EUR");
+    private static Price createPrice(int priority) {
+        return createPrice(priority, 1, new BigDecimal("35.50"));
+    }
+
+    private static Price createPrice(int priority, int priceList, BigDecimal amount) {
+        Money money = new Money(amount, "EUR");
         DateRange dateRange = new DateRange(
                 LocalDateTime.of(2026, 1, 1, 0, 0, 0),
                 LocalDateTime.of(2026, 12, 31, 23, 59, 59)
@@ -96,8 +107,8 @@ class GetApplicablePriceServiceTest {
                 1L,
                 35455L,
                 money,
-                1,
-                1,
+                priority,
+                priceList,
                 dateRange
         );
     }

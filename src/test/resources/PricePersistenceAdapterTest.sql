@@ -1,8 +1,4 @@
-INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (1, 1, 1, 1, '2024-01-01 00:00:00', '2024-12-31 23:59:59', 0, 100.00, 'EUR');
+INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (1, 1, 1, 1, '2024-01-01 00:00:00', '2024-12-31 23:59:59', 0, 100.00, 'USD');
 INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (2, 1, 1, 2, '2024-01-01 10:00:00', '2024-01-01 12:00:00', 1, 80.00, 'EUR');
 INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (3, 1, 1, 5, '2024-01-01 11:00:00', '2024-01-01 11:30:00', 2, 75.00, 'EUR');
-INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (4, 1, 1, 7, '2024-07-01 00:00:00', '2024-07-31 23:59:59', 5, 50.00, 'EUR');
-INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (5, 1, 1, 8, '2024-07-01 00:00:00', '2024-07-31 23:59:59', 5, 60.00, 'EUR');
 INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (6, 2, 1, 9, '2024-01-01 00:00:00', '2024-12-31 23:59:59', 0, 150.00, 'EUR');
-INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (7, 1, 2, 10, '2024-01-01 00:00:00', '2024-12-31 23:59:59', 0, 200.00, 'EUR');
-INSERT INTO prices (id, brand_id, product_id, price_list, start_date, end_date, priority, price, currency) VALUES (8, 1, 1, 11, '2024-10-01 00:00:00', '2024-10-31 23:59:59', 5, 95.00, 'USD');

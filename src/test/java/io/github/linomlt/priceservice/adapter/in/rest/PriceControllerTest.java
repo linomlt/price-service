@@ -127,5 +127,4 @@ class PriceControllerIntegrationTest {
                 .andExpect(jsonPath("$.expectedType").value("LocalDateTime"));
     }
 
-
 }
