@@ -4,8 +4,10 @@ import io.github.linomlt.priceservice.application.exception.PriceNotFoundExcepti
 import io.github.linomlt.priceservice.domain.exception.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.net.URI;
 import java.time.Instant;
@@ -33,14 +35,34 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ProblemDetail handleGeneralException() {
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ProblemDetail handleMissingServletRequestParameterException(
+            MissingServletRequestParameterException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "An unexpected error occurred");
-        problemDetail.setTitle("Internal Server Error");
-        problemDetail.setType(URI.create("https://api.priceservice.com/errors/internal-error"));
+                HttpStatus.BAD_REQUEST,
+                "Required query parameter '" + ex.getParameterName() + "' is missing");
+        problemDetail.setTitle("Missing Required Parameter");
+        problemDetail.setType(URI.create("https://api.priceservice.com/errors/missing-request-parameter"));
         problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("parameter", ex.getParameterName());
         return problemDetail;
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ProblemDetail handleMethodArgumentTypeMismatchException(
+            MethodArgumentTypeMismatchException ex) {
+        String expectedType = ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown";
+        String parameterName = ex.getName();
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                "Parameter '" + parameterName + "' has an invalid value type");
+        problemDetail.setTitle("Invalid Parameter Type");
+        problemDetail.setType(URI.create("https://api.priceservice.com/errors/invalid-parameter-type"));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("parameter", parameterName);
+        problemDetail.setProperty("expectedType", expectedType);
+        return problemDetail;
+    }
+
 }

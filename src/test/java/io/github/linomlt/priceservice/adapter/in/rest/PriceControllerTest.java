@@ -67,4 +67,65 @@ class PriceControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    
+    @Test
+    void shouldReturnBadRequestWhenBrandIdMissing() throws Exception {
+        mockMvc.perform(get(APPLICABLE_PRICE_URL)
+                        .param("productId", PRODUCT_ID.toString())
+                        .param("applicationDate", "2020-06-14T10:00:00")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Missing Required Parameter"))
+                .andExpect(jsonPath("$.parameter").value("brandId"));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenProductIdIsMissing() throws Exception {
+        mockMvc.perform(get(APPLICABLE_PRICE_URL)
+                        .param("brandId", BRAND_ID.toString())
+                        .param("applicationDate", "2020-06-14T10:00:00")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Missing Required Parameter"))
+                .andExpect(jsonPath("$.parameter").value("productId"));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenApplicationDateIsMissing() throws Exception {
+        mockMvc.perform(get(APPLICABLE_PRICE_URL)
+                        .param("brandId", BRAND_ID.toString())
+                        .param("productId", PRODUCT_ID.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Missing Required Parameter"))
+                .andExpect(jsonPath("$.parameter").value("applicationDate"));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenProductIdIsNotLong() throws Exception {
+        mockMvc.perform(get(APPLICABLE_PRICE_URL)
+                        .param("brandId", BRAND_ID.toString())
+                        .param("productId", "not-a-long")
+                        .param("applicationDate", "2020-06-14T10:00:00")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Invalid Parameter Type"))
+                .andExpect(jsonPath("$.parameter").value("productId"))
+                .andExpect(jsonPath("$.expectedType").value("Long"));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenApplicationDateHasInvalidFormat() throws Exception {
+        mockMvc.perform(get(APPLICABLE_PRICE_URL)
+                        .param("brandId", BRAND_ID.toString())
+                        .param("productId", PRODUCT_ID.toString())
+                        .param("applicationDate", "2020-06-14")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Invalid Parameter Type"))
+                .andExpect(jsonPath("$.parameter").value("applicationDate"))
+                .andExpect(jsonPath("$.expectedType").value("LocalDateTime"));
+    }
+
+
 }
