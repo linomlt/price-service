@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @Import({PricePersistenceAdapter.class, PriceMapper.class})
 @Sql("/PricePersistenceAdapterTest.sql")
-class PricePersistenceAdapterTest {
+class PricePersistenceAdapterIntegrationTest {
 
     @Autowired
     private PricePersistenceAdapter pricePersistenceAdapter;

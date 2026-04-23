@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PriceControllerTest {
+class PriceControllerIntegrationTest {
 
     private static final String APPLICABLE_PRICE_URL = "/api/v1/prices/applicable";
     private static final Long BRAND_ID = 1L;
